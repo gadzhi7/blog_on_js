@@ -6,13 +6,9 @@ export class Component {
 
   init() {}
 
-  onShow() {
+  onShow() {}
 
-  }
-
-  onHide() {
-
-  }
+  onHide() {}
 
   show() {
     this.$el.classList.remove('hide')
