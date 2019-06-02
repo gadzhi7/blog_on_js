@@ -1,7 +1,7 @@
 import  {Component} from '../core/component'
 import {apiService} from '../services/api.service'
 import {TransformService} from '../services/transform.service'
-import {renderPost} from '../templates/post.tempplate'
+import {renderPosts} from '../templates/post.tempplate'
 
 export class PostsComponent extends Component {
   constructor(id, {loader}) {
@@ -28,18 +28,24 @@ function buttonHundler(e) {
   const id = $el.dataset.id
 
   if(id) {
+    const title = $el.dataset.title
     let favorites = JSON.parse(localStorage.getItem('favorites')) || []
+    let saveItem = {id, title}
+    let save = false
+    favorites.forEach(i => {
+      if(i.id === id) save = true
+    })
 
-    if(favorites.includes(id)) {
+    if(save) {
       $el.textContent = 'Сохранить'
       $el.classList.remove('button-danger')
       $el.classList.add('button-primary')
-      favorites = favorites.filter(fId => fId !== id)
+      favorites = favorites.filter(fId => fId.id !== id)
     } else {
       $el.classList.remove('button-primary')
       $el.classList.add('button-danger')
       $el.textContent = 'Удалить'
-      favorites.push(id)
+      favorites.push(saveItem)
     }
 
     localStorage.setItem('favorites', JSON.stringify(favorites))

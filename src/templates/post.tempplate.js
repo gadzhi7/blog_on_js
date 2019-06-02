@@ -3,10 +3,18 @@ export function renderPosts(post, options) {
   `<li class="tag tag-blue tag-rounded">Новость</li>` :
   `<li class="tag tag-rounded">Заметка</li>`
 
-  let button = (JSON.parse(localStorage.getItem('favorites')) || []).includes(post.id) ?
-  `<button class="button-round button-small button-danger" data-id="${post.id}">Удалить</button>` :
-  `<button class="button-round button-small button-primary" data-id="${post.id}">Сохранить</button>`
+  let save = false;
+  (JSON.parse(localStorage.getItem('favorites')) || []).forEach(i => {
+    if(i.id === post.id) save = true
+  })
+
+  let button = save ?
+  `<button class="button-round button-small button-danger" data-title="${post.title}" data-id="${post.id}">Удалить</button>` :
+  `<button class="button-round button-small button-primary" data-title="${post.title}" data-id="${post.id}">Сохранить</button>`
+  let showAllButton =  `<button class="button-round button-small button-primary show_all-js">Показать все</button>`
+
   return `
+    ${options.withButton ? '' : showAllButton}
     <div class="panel">
       <div class="panel-head">
         <p class="panel-title">${post.title}</p>
